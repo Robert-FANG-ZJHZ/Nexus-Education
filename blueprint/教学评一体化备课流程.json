@@ -1,0 +1,2883 @@
+{
+  "name": "教学评一体化备课流程",
+  "meta": {
+    "experts": 41,
+    "skills": 127,
+    "steps": 44,
+    "checkpoints": 4,
+    "triggers": [
+      "manualTrigger",
+      "scheduleTrigger",
+      "webhook"
+    ],
+    "dry_run": true,
+    "note": "llm/db/task 步骤用 n8n Set 节点作占位，节点 assignments 内即执行合约；落地时替换为本地引擎 HTTP 节点或 LLM 节点。"
+  },
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "835cd88820cc4aca",
+      "name": "手动触发",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "weeksInterval": 1
+            }
+          ]
+        }
+      },
+      "id": "e5a3ed1867ad4217",
+      "name": "定时触发(周)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        220,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nexedu/data"
+      },
+      "id": "0b92679f11a14eb7",
+      "name": "回调触发(数据录入)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        440,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexcoord",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-route,skill-plan",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "A 需求与定位",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b7ce6559791c4147",
+      "name": "01 需求解析",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 2,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "task",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "stop",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "A 需求与定位",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b0f2a21735d14771",
+      "name": "02 范围确认",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 3,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexstd",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-std-parse,skill-achievement,skill-literacy-std",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "B 课标与课程",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e2adb2eb239245db",
+      "name": "03 课标解析",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 4,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nextxt",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-textbook-map,skill-keypoint,skill-sequence",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "B 课标与课程",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4547c91e3493473f",
+      "name": "04 教材分析",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexunit",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-unit-design,skill-big-idea,skill-unit-kb",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "B 课标与课程",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "075ec842ea2b4261",
+      "name": "05 大单元设计",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 6,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "skip",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexxcu",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-cross-subject,skill-course-ideology,skill-project-x",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "B 课标与课程",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8e686f989f894f67",
+      "name": "06 跨学科整合",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 7,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexprof",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-profiling,skill-startpoint,skill-style",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "C 学情诊断",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "620e74dca84e4d24",
+      "name": "07 学情画像",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 8,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexmis",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-misconception,skill-error-prone,skill-zpd",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "C 学情诊断",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "76ae5a0c0bc444f4",
+      "name": "08 前概念/易错点预判",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 9,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexdif",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-tiering,skill-diff-task,skill-scalaffold-level",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "C 学情诊断",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3a4fc41fd1854184",
+      "name": "09 差异分层",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 10,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "skip",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexincl",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-inclusion,skill-special-need,skill-sel",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "C 学情诊断",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "05f67b41ad2d44f8",
+      "name": "10 融合教育适配",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 11,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexaim",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-objective-write,skill-objective-decompose,skill-behavior-verb",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "D 目标设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ceb7ecb9a69640d7",
+      "name": "11 目标设计",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 12,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexlit",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-literacy-map,skill-literacy-balance",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "D 目标设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5b491d0b929c4a3f",
+      "name": "12 素养映射",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 13,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexsol",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-solo-level,skill-bloom-level,skill-cognitive-ladder",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "D 目标设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bad18ddad8ad4c25",
+      "name": "13 SOLO/认知层级标注",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 14,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "db",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "stop",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexalign",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-alignment,skill-observable,skill-measurable",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "D 目标设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5cfe0e783a6c4617",
+      "name": "14 目标-评价对齐校验",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1120
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 15,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexeval",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-eval-task,skill-eval-first,skill-evidence",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "E 评价设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fbd257753e7e49a5",
+      "name": "15 评价任务设计",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 16,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexrub",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-rubric,skill-rubric-level,skill-self-peer",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "E 评价设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "eb4862ab4b9d41ce",
+      "name": "16 量规设计",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1280
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 17,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexperf",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-performance-task,skill-real-scenario,skill-portfolio",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "E 评价设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5f72a057b8e74ec1",
+      "name": "17 表现性任务",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 18,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexproc",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-formative,skill-classroom-qa,skill-observation-scale",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "E 评价设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2f9abdbb8b134cb3",
+      "name": "18 过程性评价",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1440
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 19,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexsum",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-item-write,skill-item-subjective,skill-spec-table",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "E 评价设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9f82196b3e434ae1",
+      "name": "19 命题/双向细目",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1520
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 20,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "task",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "stop",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "E 评价设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e5d408ce38474dd6",
+      "name": "20 方案确认",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1600
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 21,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexdes",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-backward-design,skill-activity-design,skill-lesson-flow",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "F 教学与活动",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8d39aab1028b45fa",
+      "name": "21 逆向教学设计",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1680
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 22,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexq",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-question-chain,skill-core-question,skill-wait-time",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "F 教学与活动",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1024717403c4db7",
+      "name": "22 问题链设计",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1760
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 23,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexsit",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-situation,skill-conflict,skill-life-link",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "F 教学与活动",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "618ac283deb44bdb",
+      "name": "23 情境创设",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1840
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 24,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexcoop",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-grouping,skill-jigsaw,skill-role-assign",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "F 教学与活动",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a4af77e7da514e65",
+      "name": "24 合作学习",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1920
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 25,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexpbl",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-pbl,skill-inquiry,skill-driven-question",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "F 教学与活动",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "400b17ff028b418e",
+      "name": "25 项目式/探究",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2000
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 26,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "skip",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexgame",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-gamification,skill-motivation,skill-feedback-loop",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "F 教学与活动",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b176ffaf1f944d06",
+      "name": "26 游戏化/动机",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2080
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 27,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexhw",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-homework-tier,skill-hw-objective,skill-burden",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "G 作业设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "21b2f2e7315f43e4",
+      "name": "27 分层作业",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2160
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 28,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexerr",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-error-analysis,skill-remedial,skill-wrongbook",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "G 作业设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e1fb8150746b49e1",
+      "name": "28 错题/补偿练习",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2240
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 29,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "skip",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexprac",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-practice-hw,skill-cross-hw,skill-holiday-hw",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "G 作业设计",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bd0ee0b49206411f",
+      "name": "29 实践/跨学科作业",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2320
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 30,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexppt",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-ppt-script,skill-visual-layout,skill-animation-hint",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "H 资源课件",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "90f3fe88496e4697",
+      "name": "30 课件脚本",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 31,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexhand",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-handout,skill-guide-sheet,skill-worksheet",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "H 资源课件",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e147bd23e25d4044",
+      "name": "31 学案/导学单",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 32,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "skip",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexmicro",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-micro-script,skill-micro-storyboard",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "H 资源课件",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b409aa5740ca4711",
+      "name": "32 微课脚本",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2560
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 33,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "skip",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexmedia",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-visualization,skill-digital-resource",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "H 资源课件",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "baaab504daee4ee5",
+      "name": "33 可视化/数字资源",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2640
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 34,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "task",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "stop",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "H 资源课件",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b7ad80ba24284d65",
+      "name": "34 成果确认",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2720
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 35,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexch",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-ch-reading,skill-ch-writing,skill-ch-classical",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "I 学科专长",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "be7a3d3888824efd",
+      "name": "35 学科专长注入",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2800
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 36,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexref",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-lesson-diagnosis,skill-refine",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "J 实施与反思",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7a24308f35eb467e",
+      "name": "36 试讲/磨课诊断",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2880
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 37,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexobs",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-observation,skill-observe-scale",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "J 实施与反思",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ac37020dac3344ed",
+      "name": "37 课堂观察",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        2960
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 38,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexdes",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-backward-design,skill-refine",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "J 实施与反思",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "32340bba25d94e46",
+      "name": "38 定向修改",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        3040
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 39,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "task",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "stop",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "J 实施与反思",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0dac5863f7b3477f",
+      "name": "39 定稿确认",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        3120
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://127.0.0.1:8520/api/collect",
+        "method": "POST",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "payload",
+              "value": "={{ $json }}"
+            }
+          ]
+        }
+      },
+      "id": "e1c54d25e3c14c44",
+      "name": "40 数据回收",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [
+        0,
+        3200
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 41,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexdata",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-error-category,skill-weakpoint-map,skill-data-viz",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "K 数据回流",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "368da0f916d14c86",
+      "name": "41 错因/薄弱点分析",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        3280
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 42,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "db",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "stop",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nextrack",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-tracking,skill-trend,skill-review-cycle",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "K 数据回流",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d2a62a0e6f7645e0",
+      "name": "42 学情追踪更新",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        3360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 43,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "retry",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexcoord",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-backflow,skill-consistency",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "K 数据回流",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a3147b235e6e4d6e",
+      "name": "43 回流二次备课",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        3440
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "order",
+              "value": 44,
+              "type": "number"
+            },
+            {
+              "id": "a2",
+              "name": "type",
+              "value": "llm",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "on_failure",
+              "value": "skip",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "expert",
+              "value": "nexresearch",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "skills",
+              "value": "skill-teach-reflect,skill-research-topic,skill-case-study",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "stage",
+              "value": "K 数据回流",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "11a3f584b7f840df",
+      "name": "44 教研成果沉淀",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        0,
+        3520
+      ]
+    }
+  ],
+  "connections": {
+    "手动触发": {
+      "main": [
+        [
+          {
+            "node": "01 需求解析",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "01 需求解析": {
+      "main": [
+        [
+          {
+            "node": "02 范围确认",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "02 范围确认": {
+      "main": [
+        [
+          {
+            "node": "03 课标解析",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "03 课标解析": {
+      "main": [
+        [
+          {
+            "node": "04 教材分析",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "04 教材分析": {
+      "main": [
+        [
+          {
+            "node": "05 大单元设计",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "05 大单元设计": {
+      "main": [
+        [
+          {
+            "node": "06 跨学科整合",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "06 跨学科整合": {
+      "main": [
+        [
+          {
+            "node": "07 学情画像",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "07 学情画像": {
+      "main": [
+        [
+          {
+            "node": "08 前概念/易错点预判",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "08 前概念/易错点预判": {
+      "main": [
+        [
+          {
+            "node": "09 差异分层",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "09 差异分层": {
+      "main": [
+        [
+          {
+            "node": "10 融合教育适配",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "10 融合教育适配": {
+      "main": [
+        [
+          {
+            "node": "11 目标设计",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "11 目标设计": {
+      "main": [
+        [
+          {
+            "node": "12 素养映射",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "12 素养映射": {
+      "main": [
+        [
+          {
+            "node": "13 SOLO/认知层级标注",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "13 SOLO/认知层级标注": {
+      "main": [
+        [
+          {
+            "node": "14 目标-评价对齐校验",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "14 目标-评价对齐校验": {
+      "main": [
+        [
+          {
+            "node": "15 评价任务设计",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "15 评价任务设计": {
+      "main": [
+        [
+          {
+            "node": "16 量规设计",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "16 量规设计": {
+      "main": [
+        [
+          {
+            "node": "17 表现性任务",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "17 表现性任务": {
+      "main": [
+        [
+          {
+            "node": "18 过程性评价",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "18 过程性评价": {
+      "main": [
+        [
+          {
+            "node": "19 命题/双向细目",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "19 命题/双向细目": {
+      "main": [
+        [
+          {
+            "node": "20 方案确认",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "20 方案确认": {
+      "main": [
+        [
+          {
+            "node": "21 逆向教学设计",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "21 逆向教学设计": {
+      "main": [
+        [
+          {
+            "node": "22 问题链设计",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "22 问题链设计": {
+      "main": [
+        [
+          {
+            "node": "23 情境创设",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "23 情境创设": {
+      "main": [
+        [
+          {
+            "node": "24 合作学习",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "24 合作学习": {
+      "main": [
+        [
+          {
+            "node": "25 项目式/探究",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "25 项目式/探究": {
+      "main": [
+        [
+          {
+            "node": "26 游戏化/动机",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "26 游戏化/动机": {
+      "main": [
+        [
+          {
+            "node": "27 分层作业",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "27 分层作业": {
+      "main": [
+        [
+          {
+            "node": "28 错题/补偿练习",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "28 错题/补偿练习": {
+      "main": [
+        [
+          {
+            "node": "29 实践/跨学科作业",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "29 实践/跨学科作业": {
+      "main": [
+        [
+          {
+            "node": "30 课件脚本",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "30 课件脚本": {
+      "main": [
+        [
+          {
+            "node": "31 学案/导学单",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "31 学案/导学单": {
+      "main": [
+        [
+          {
+            "node": "32 微课脚本",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "32 微课脚本": {
+      "main": [
+        [
+          {
+            "node": "33 可视化/数字资源",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "33 可视化/数字资源": {
+      "main": [
+        [
+          {
+            "node": "34 成果确认",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "34 成果确认": {
+      "main": [
+        [
+          {
+            "node": "35 学科专长注入",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "35 学科专长注入": {
+      "main": [
+        [
+          {
+            "node": "36 试讲/磨课诊断",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "36 试讲/磨课诊断": {
+      "main": [
+        [
+          {
+            "node": "37 课堂观察",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "37 课堂观察": {
+      "main": [
+        [
+          {
+            "node": "38 定向修改",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "38 定向修改": {
+      "main": [
+        [
+          {
+            "node": "39 定稿确认",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "39 定稿确认": {
+      "main": [
+        [
+          {
+            "node": "40 数据回收",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "40 数据回收": {
+      "main": [
+        [
+          {
+            "node": "41 错因/薄弱点分析",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "41 错因/薄弱点分析": {
+      "main": [
+        [
+          {
+            "node": "42 学情追踪更新",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "42 学情追踪更新": {
+      "main": [
+        [
+          {
+            "node": "43 回流二次备课",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "43 回流二次备课": {
+      "main": [
+        [
+          {
+            "node": "44 教研成果沉淀",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "定时触发(周)": {
+      "main": [
+        [
+          {
+            "node": "40 数据回收",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "回调触发(数据录入)": {
+      "main": [
+        [
+          {
+            "node": "40 数据回收",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "44 教研成果沉淀": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "0.1.0"
+}
