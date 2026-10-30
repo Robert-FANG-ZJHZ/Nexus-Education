@@ -1,0 +1,8 @@
+# NexEdu 核心功能（LLM 调用 / Word 生成 / docx-pdf 解析 / 知识库检索）
+# 全部基于 Python 标准库实现，运行不需要安装任何依赖。
+#
+# 以下为「可选增强」与「打包」所需：
+pypdf>=4.0          # PDF 教科书文本提取；未安装时 PDF 自动跳过
+pywebview>=6.0      # 桌面原生无边框窗口；缺失时降级到 Edge/Chrome/浏览器
+pythonnet>=3.0      # pywebview 的 WinForms 后端依赖（仅 Windows 桌面壳需要）
+pyinstaller>=6.0    # 打包为 NexEdu.exe
